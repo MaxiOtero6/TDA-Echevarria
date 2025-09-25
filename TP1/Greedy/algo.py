@@ -9,9 +9,9 @@ def greedy(arr: list[int]):
             subintervalo.append(numero)
         else:
             suma = 0
-            if subintervalo:
+            if subintervalo and len(subintervalo) > 1:
                 intervalos.append(subintervalo)
             subintervalo = []
-    if subintervalo:
+    if subintervalo and len(subintervalo) > 1:
                 intervalos.append(subintervalo)
     return len(intervalos)
