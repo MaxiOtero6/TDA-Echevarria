@@ -3,7 +3,7 @@ from .dc_test import generate_test_cases
 from .algo import dc
 import time
 
-SAMPLE_SIZE = 3
+SAMPLE_SIZE = 10
 
 
 def get_execution_time(arr):
@@ -13,18 +13,21 @@ def get_execution_time(arr):
     return (end - start, len(arr), res)
 
 
-times = []
+results = []
 cases = generate_test_cases(
-    skip_base_cases=True, min=1_000_000_000, max=10_000_000_000, sample_size=SAMPLE_SIZE)
+    skip_base_cases=True, min=1_000, max=100_000_000, sample_size=SAMPLE_SIZE)
 for arr, _ in cases:
-    times.append(get_execution_time(arr))
-    print(f'[{len(times)}/{SAMPLE_SIZE}]')
+    t, length, _ = get_execution_time(arr)
+    results.append((t, length))
+    print(f'[{len(results)}/{SAMPLE_SIZE}]')
 
-times = sorted(times, key=lambda x: x[1])
+results.sort(key=lambda x: x[1])
+times = [t for t, _ in results]
+lengths = [l for _, l in results]
 
 print(times)
 
-plot = Plot(times[1], times[0])
+plot = Plot(lengths, times)
 plot.add_title('Divide and Conquer Execution Time')
 plot.add_x_label('Input Size (N)')
 plot.add_y_label('Execution Time (seconds)')
