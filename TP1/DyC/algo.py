@@ -11,7 +11,6 @@ def f_bruta(arr: list[int]) -> int | Literal[-1]:
 
     return -1
 
-
 # O(log(N))
 def dc(arr: list[int]) -> int | Literal[-1]:
     def run(arr: list[int], left: int, right: int) -> int | Literal[-1]:
