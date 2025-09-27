@@ -1,3 +1,10 @@
+def turns_positive(arr: list[int], i: int, suma: int) -> bool:
+    for j in range(i + 1, len(arr)):
+            suma += arr[j]
+            if suma > 0:
+                return True
+    return False
+
 def greedy(arr: list[int]):
     intervalos = []
     subintervalo = []
@@ -5,9 +12,12 @@ def greedy(arr: list[int]):
 
     for i, numero in enumerate(arr):
         suma += numero
-        if suma > 0 or (i < len(arr) - 1 and (suma + arr[i+1]) > 0):
+        if suma > 0:
             subintervalo.append(numero)
-        else:
+        elif (numero > 0 and not subintervalo):
+            subintervalo.append(numero)
+            suma = numero
+        if not turns_positive(arr, i, suma):
             suma = 0
             if subintervalo and len(subintervalo) > 1:
                 intervalos.append(subintervalo)
