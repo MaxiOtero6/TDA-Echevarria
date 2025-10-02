@@ -3,12 +3,12 @@ from .dc_test import generate_test_cases
 from .algo import dc
 import time
 
-SAMPLE_SIZE = 10
+SAMPLE_SIZE = 25
 
 
 def get_execution_time(arr):
     start = time.time()
-    res = dc(arr)
+    res = dc(arr, mock_sum=True)
     end = time.time()
     return (end - start, len(arr), res)
 
@@ -17,13 +17,19 @@ results = []
 cases = generate_test_cases(
     skip_base_cases=True, min=1_000, max=100_000_000, sample_size=SAMPLE_SIZE)
 for arr, _ in cases:
-    t, length, _ = get_execution_time(arr)
+    t, length, res = get_execution_time(arr)
+    print(
+        f'Execution time: {t}, Length: {length}, Result: {res}, check: {arr[res]}')
     results.append((t, length))
     print(f'[{len(results)}/{SAMPLE_SIZE}]')
 
 results.sort(key=lambda x: x[1])
-times = [t for t, _ in results]
-lengths = [l for _, l in results]
+
+times = []
+lengths = []
+for t, l in results:
+    times.append(t)
+    lengths.append(l)
 
 print(times)
 

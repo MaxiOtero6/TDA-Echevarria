@@ -24,7 +24,7 @@ base_cases: list[tuple[list[int], int]] = [
     ([-1, 0, 2], 2),
 ]
 
-random.seed(749)
+random.seed(777)  # Seed for reproducibility
 
 
 def generate_test_cases(skip_base_cases=False, min=10000, max=20000, sample_size=50):
@@ -58,28 +58,12 @@ def generate_test_cases(skip_base_cases=False, min=10000, max=20000, sample_size
                 arr.pop(idx)
 
             arr.insert(expected, expected)
+            print('Size after ensuring the result is unique:', len(arr))
             print('Yield')
             yield (arr, expected)
 
 
-# def save_gen_in_file():
-#     with open('plot_cases.json', 'w') as f:
-#         import json
-#         json.dump(
-#             [case for case, _ in generate_test_cases(skip_base_cases=True, min=100_000_000, max=100_000_000, sample_size=1)], f)
-
-
-# def load_gen_from_file():
-#     with open('plot_cases.json', 'r') as f:
-#         import json
-#         arrs = json.load(f)
-#         for arr in arrs:
-#             yield arr
-
-
 cases = generate_test_cases()
-# test_cases.sort(key=lambda x: len(x[0]))
-# save_gen_in_file()
 
 
 @pytest.mark.parametrize("arr, expected", cases)
