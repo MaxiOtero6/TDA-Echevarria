@@ -14,11 +14,12 @@ def greedy(arr: list[int]):
         suma += numero
         if suma > 0:
             subintervalo.append(numero)
+        elif (numero < 0 and turns_positive(arr, i, suma)):
+            subintervalo.append(numero)
         elif (numero > 0 and not subintervalo):
             subintervalo.append(numero)
             suma = numero
-
-        if not turns_positive(arr, i, suma):
+        elif (numero < 0 and not turns_positive(arr, i, suma)):
             suma = 0
             if subintervalo and len(subintervalo) > 1:
                 intervalos += 1
