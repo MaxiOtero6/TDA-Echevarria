@@ -1,0 +1,24 @@
+== Set 1 ==
+Input: [2, -4, 3, -1, 2]
+Suma máxima: 4
+Subsecuencia óptima: [3, -1, 2]
+Tiempo de ejecución: 1.43 μs
+
+== Set 2 ==
+Input: [-3, -1, -7]
+Suma máxima: -1
+Subsecuencia óptima: [-1]
+Tiempo de ejecución: 1.05 μs
+
+== Set 3 ==
+Input: [1, 2, 3, 4]
+Suma máxima: 10
+Subsecuencia óptima: [1, 2, 3, 4]
+Tiempo de ejecución: 1.11 μs
+
+== Set 4 ==
+Input: [0, -1, 3, -2, 0, 4]
+Suma máxima: 5
+Subsecuencia óptima: [3, -2, 0, 4]
+Tiempo de ejecución: 1.02 μs
+
