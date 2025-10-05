@@ -17,7 +17,6 @@ test_cases += [([1, 2, 3], 1)]
 test_cases += [([1, 2, -10, 1, 2], 2)]
 
 
-
 @pytest.mark.parametrize("arr, expected", test_cases)
 def test_greedy(arr, expected):
     assert greedy(arr) == expected

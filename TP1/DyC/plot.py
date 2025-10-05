@@ -15,13 +15,13 @@ def get_execution_time(arr):
 
 results = []
 cases = generate_test_cases(
-    skip_base_cases=True, min=1_000, max=100_000_000, sample_size=SAMPLE_SIZE)
+    skip_base_cases=True, min=1_000, max=100_000_000, sample_size=SAMPLE_SIZE
+)
 for arr, _ in cases:
     t, length, res = get_execution_time(arr)
-    print(
-        f'Execution time: {t}, Length: {length}, Result: {res}, check: {arr[res]}')
+    print(f"Execution time: {t}, Length: {length}, Result: {res}, check: {arr[res]}")
     results.append((t, length))
-    print(f'[{len(results)}/{SAMPLE_SIZE}]')
+    print(f"[{len(results)}/{SAMPLE_SIZE}]")
 
 results.sort(key=lambda x: x[1])
 
@@ -34,9 +34,9 @@ for t, l in results:
 print(times)
 
 plot = Plot(lengths, times)
-plot.add_title('Divide and Conquer Execution Time')
-plot.add_x_label('Input Size (N)')
-plot.add_y_label('Execution Time (seconds)')
+plot.add_title("Divide and Conquer Execution Time")
+plot.add_x_label("Input Size (N)")
+plot.add_y_label("Execution Time (seconds)")
 plot.plot_logn_regression()
 plot.plot_poly_regression(degree=1)
 plot.show()

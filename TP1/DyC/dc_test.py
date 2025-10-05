@@ -34,16 +34,14 @@ def generate_test_cases(skip_base_cases=False, min=10000, max=20000, sample_size
 
     for _ in range(sample_size):
         n = random.randint(min, max)
-        arr = list(
-            {random.randint(-n, n) for _ in range(n)}
-        )
-        print(f'Generated array of size {n}')
+        arr = list({random.randint(-n, n) for _ in range(n)})
+        print(f"Generated array of size {n}")
         arr.sort()
-        print(f'Sorted array of size {n}')
+        print(f"Sorted array of size {n}")
 
         expected = f_bruta(arr)
         if expected == -1:
-            print('Yield')
+            print("Yield")
             yield (arr, expected)
         else:
             # Ensure algorithm result is unique
@@ -58,8 +56,8 @@ def generate_test_cases(skip_base_cases=False, min=10000, max=20000, sample_size
                 arr.pop(idx)
 
             arr.insert(expected, expected)
-            print('Size after ensuring the result is unique:', len(arr))
-            print('Yield')
+            print("Size after ensuring the result is unique:", len(arr))
+            print("Yield")
             yield (arr, expected)
 
 
