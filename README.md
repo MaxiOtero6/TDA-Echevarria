@@ -12,7 +12,7 @@
 #### Greedy
 
 -   `python -m TP1.Greedy.plot`: Run plot cases for this algorithm
--   `pytest TP1/DyC/greedy_test.py`: Run tests
+-   `pytest TP1/Greedy/greedy_test.py`: Run tests
 
 #### Backtracking
 
