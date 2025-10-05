@@ -1,5 +1,5 @@
 import pytest
-from .algo import dinamica
+from .dinamica import dinamica
 
 test_cases = []
 
