@@ -20,21 +20,18 @@ def dinamica(arr: list[int]):
 
     return (suma_maxima, inicio, fin)
 
+
 def main():
-    datasets = [
-        [2, -4, 3, -1, 2],
-        [-3, -1, -7],
-        [1, 2, 3, 4],
-        [0, -1, 3, -2, 0, 4]
-    ]
+    datasets = [[2, -4, 3, -1, 2], [-3, -1, -7], [1, 2, 3, 4], [0, -1, 3, -2, 0, 4]]
 
     for i, arr in enumerate(datasets, start=1):
         suma_max, inicio, fin = dinamica(arr)
-        subseq = arr[inicio:fin+1] if inicio != -1 else []
+        subseq = arr[inicio : fin + 1] if inicio != -1 else []
         print(f"== Set {i} ==")
         print(f"Input: {arr}")
         print(f"Mejor suma: {suma_max}")
         print(f"Subsecuencia optima: {subseq}\n")
+
 
 if __name__ == "__main__":
     main()

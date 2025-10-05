@@ -25,42 +25,53 @@ class Plot:
     def show(self):
         plt.show()
 
-    def plot_poly_regression(self, degree=1, color='#a83291', style='--'):
+    def plot_poly_regression(self, degree=1, color="#a83291", style="--"):
         coeffs = np.polyfit(self.x, self.y, degree)
         x_fit = np.linspace(self.x.min(), self.x.max(), 100)
         y_fit = np.polyval(coeffs, x_fit)
 
-        label = ' Regression'
+        label = " Regression"
 
         if degree == 0:
-            label = 'O(1)' + label
+            label = "O(1)" + label
         elif degree == 1:
-            label = 'O(N)' + label
+            label = "O(N)" + label
         else:
-            label = f'O(N^{degree})' + label
+            label = f"O(N^{degree})" + label
 
-        self.ax.plot(x_fit, y_fit, label=label,
-                     color=color, linestyle=style, zorder=5)
+        self.ax.plot(x_fit, y_fit, label=label, color=color, linestyle=style, zorder=5)
         self.ax.legend()
 
-    def plot_logn_regression(self, color='green', style='--'):
+    def plot_logn_regression(self, color="green", style="--"):
         x_log = np.log(self.x)
         coeffs = np.polyfit(x_log, self.y, 1)
         x_sorted = np.sort(self.x)
         x_log_sorted = np.log(x_sorted)
         y_fit = np.polyval(coeffs, x_log_sorted)
-        self.ax.plot(x_sorted, y_fit,
-                     label='O(log(N)) Regression', color=color, linestyle=style, zorder=5)
+        self.ax.plot(
+            x_sorted,
+            y_fit,
+            label="O(log(N)) Regression",
+            color=color,
+            linestyle=style,
+            zorder=5,
+        )
         self.ax.legend()
 
-    def plot_nlogn_regression(self, color='orange', style='--'):
+    def plot_nlogn_regression(self, color="orange", style="--"):
         x_nlogn = self.x * np.log(self.x)
         coeffs = np.polyfit(x_nlogn, self.y, 1)
         x_sorted = np.sort(self.x)
         x_nlogn_sorted = x_sorted * np.log(x_sorted)
         y_fit = np.polyval(coeffs, x_nlogn_sorted)
-        self.ax.plot(x_sorted, y_fit,
-                     label='O(N log(N)) Regression', color=color, linestyle=style, zorder=5)
+        self.ax.plot(
+            x_sorted,
+            y_fit,
+            label="O(N log(N)) Regression",
+            color=color,
+            linestyle=style,
+            zorder=5,
+        )
         self.ax.legend()
 
 

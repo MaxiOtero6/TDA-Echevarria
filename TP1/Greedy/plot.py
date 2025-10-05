@@ -4,7 +4,23 @@ import random
 import time
 from statistics import mean
 
-SIZES = [10, 100, 1000, 3000, 5000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]
+SIZES = [
+    10,
+    100,
+    1000,
+    3000,
+    5000,
+    10000,
+    20000,
+    30000,
+    40000,
+    50000,
+    60000,
+    70000,
+    80000,
+    90000,
+    100000,
+]
 RUNS = 10
 RANDOM_SEED = 777
 
@@ -41,7 +57,7 @@ def benchmark():
     plot.add_title("Greedy - Tiempo promedio vs N")
     plot.add_x_label("Tamaño de entrada (N)")
     plot.add_y_label("Tiempo (s)")
-    plot.plot_poly_regression(degree=1, color='grey')
+    plot.plot_poly_regression(degree=1, color="grey")
     plot.plot_poly_regression(degree=2)
     plot.show()
 
