@@ -1,0 +1,7 @@
+Flujo máximo alcanzado: 10MB
+Camino 1 -> 2 -> 9 -> 10 con flujo 2MB
+Camino 1 -> 3 -> 7 -> 10 con flujo 2MB
+Camino 1 -> 2 -> 6 -> 9 -> 10 con flujo 1MB
+Camino 1 -> 2 -> 5 -> 7 -> 10 con flujo 2MB
+Camino 1 -> 3 -> 4 -> 8 -> 10 con flujo 3MB
+Cantidad de aristas utilizadas: 13

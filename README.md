@@ -24,6 +24,26 @@
 -   `python -m TP1.Dinamica.dinamica`: Run algorithm and dump results
 -   `pytest TP1/Dinamica/dinamica_test.py`: Run tests
 
+## TP2
+
+### Run commands
+
+#### PL
+
+-   `python3 -m TP2.`:
+
+#### RF
+
+-   `python -m TP2.RF.algo`: Run algorithm with base case
+
+#### AA
+
+-   `python -m TP2.`:
+
+#### AR
+
+-   `python -m TP2.`:
+
 ## Makefile Commands
 
 -   `make build`: Creates a Python virtual environment (.venv) and installs dependencies from requirements.txt.
