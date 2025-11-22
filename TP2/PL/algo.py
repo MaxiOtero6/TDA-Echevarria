@@ -34,7 +34,7 @@ def prog_lineal(grafo, nodo_inicio, nodo_fin, capacidad_maxima):
     status = pulp.LpStatus[problema.status]
     print("Status:", status)
     if status != "Optimal":
-        print("No optimal solution found.")
+        print("Sin solucion optima.")
         return None
 
     sol_X = {e: int(pulp.value(X[e])) for e in aristas}
@@ -42,11 +42,11 @@ def prog_lineal(grafo, nodo_inicio, nodo_fin, capacidad_maxima):
 
     resultados_path = Path(__file__).parent / "resultados.txt"
     with open(resultados_path, "w", encoding="utf-8") as fh:
-        fh.write(f"Objective (used links): {pulp.value(problema.objective)}\n")
-        fh.write("X (used links):\n")
+        fh.write(f"Resultado objetivo (enlaces usados): {pulp.value(problema.objective)}\n")
+        fh.write("X (1 si enlace usado, caso contrario 0):\n")
         for e in sol_X:
             fh.write(f"  {e}: {sol_X[e]}\n")
-        fh.write("F (flows MB):\n")
+        fh.write("F (flujo por enlace en MB):\n")
         for e in sol_F:
             fh.write(f"  {e}: {sol_F[e]}\n")
 

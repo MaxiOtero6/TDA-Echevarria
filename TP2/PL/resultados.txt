@@ -1,5 +1,5 @@
-Objective (used links): 12.0
-X (used links):
+Resultado objetivo (enlaces usados): 12.0
+X (1 si enlace usado, caso contrario 0):
   ('1', '2'): 1
   ('1', '3'): 1
   ('2', '5'): 1
@@ -15,7 +15,7 @@ X (used links):
   ('7', '10'): 1
   ('8', '10'): 1
   ('9', '10'): 1
-F (flows MB):
+F (flujo por enlace en MB):
   ('1', '2'): 5.0
   ('1', '3'): 5.0
   ('2', '5'): 2.0
