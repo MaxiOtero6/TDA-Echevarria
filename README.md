@@ -38,7 +38,9 @@
 
 #### AA
 
--   `python -m TP2.`:
+-   `python -m TP2.AA.algo`: Run algorithm with predefined test cases and generate results
+- The `generar_casos_prueba()` function defiens 6 test cases: basic, large items, small items, worst case, mixed and random
+- Results are automatically exported to `resultados.txt`
 
 #### AR
 

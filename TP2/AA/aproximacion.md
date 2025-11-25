@@ -20,7 +20,7 @@ Para el desarrollo de la solución, se asumen las siguientes condiciones tomando
 
 ### 3.2.2 Espacio de Soluciones Factibles
 
-El problema planteado es una variante del _Bin Package Problem_. Si se intentara resolverlo mediante fuerza bruta para encontrar el óptimo global, se tendría que evaluar todas las posibles asignaciones de $n$ elementos en $k$ recipientes.
+El problema planteado es una variante del _Bin Packing Problem_. Si se intentara resolverlo mediante fuerza bruta para encontrar el óptimo global, se tendría que evaluar todas las posibles asignaciones de $n$ elementos en $k$ recipientes.
 
 El espacio de soluciones crece según los Números de Bell $B(n)$. Su comportamiento asintótico es del tipo $(n/\ln n)^n$ (Rosen, 2019). Al tener la variable $n$ tanto en la base como en el exponente, este crecimiento es superior al exponencial simple $(c^n)$ y se asemeja más a un crecimiento factorial $(n!)$. 
 
@@ -30,7 +30,7 @@ Por ejemplo, para valores pequeños de $n$, la cantidad de combinaciones explota
 
 ### 3.3.1 Algoritmo Propuesto
 
-Para cumplir con el requisito de eficiencia y la garantía de aproximación solictada, se implementará el algoritmo Next Fit (Siguiente Ajuste).
+Para cumplir con el requisito de eficiencia y la garantía de aproximación solicitada, se implementará el algoritmo Next Fit (Siguiente Ajuste).
 
 La estrategia consiste en mantener abierto únicamente el recipiente actual. Si el siguiente objeto cabe en él, se coloca allí; de lo contrario, se cierra el recipiente actual (no se vuelve a usar) y se abre uno nuevo para el objeto.
 
@@ -50,20 +50,40 @@ FUNCION next_fit(items S):
             j += 1
             # colocar s_i en r_j
 
-    RETORNAR j # cantidad de recipentes usados
+    RETORNAR j # cantidad de recipientes usados
 ```
 
 ### 3.3.3 Garantía de Aproximación
 
 El algoritmo de _Next Fit_ garantiza que la cantidad de recipientes utilizados nunca excede el doble de la cantidad óptima de recipientes.
 
-**Teorema:** Para cualquier lista de items $L$, sea $NF(L)$ la cantidad de recipientes usados por _Next Fit_ y $OPT(L)$ la cantidad óptima. Entonces: $NF(L) \leq OPT(L)$.
+**Teorema:** Para cualquier lista de items $L$, sea $NF(L)$ la cantidad de recipientes usados por _Next Fit_ y $OPT(L)$ la cantidad óptima. Entonces: $NF(L) \leq 2 \cdot OPT(L)$.
 
-**Demostración:** Sea $k$ la cantidad de recipientes utilizados por _Next Fit_. Se denota como $C(R_i)$ al contenido (suma de los items) del recipiente $i$.
+**Demostración:** Sea $k = NF(L)$. Se denota como $C(R_i)$ la suma de tamaños de los ítems en el recipiente $R_i$. *Next Fit* abre el recipiente $R_{i+1}$ solo cuando el siguiente ítem (el primero que quedará en $R_{i+1}$) no entra en $R_i$. Si ese primer ítem del nuevo recipiente es $x_{i+1}$, entonces:
 
-La lógica del algoritmo dicta que un nuevo recipiente $R_{i+1}$ solo se abre si el item actual no cabe en el recipiente $R_i$. Esto implica que la suma del contenido de los recipientes adyacentes cualesquiera debe ser extrictamente mayor a la capacidad unitaria del recipiente (que es 1). Si fuera menor o igual a 1, el algoritmo habría colocado primer item del recipiente $i+1$ en el recipiente $i$.
+\[C(R_i) + x_{i+1} > 1\]
 
-$C(R_i) + C(R_{i+1}) < 1 \text{, para } 1 \leq i \leq k$
+Puesto que $C(R_{i+1}) \ge x_{i+1}$, se obtiene para cada par consecutivo (salvo quizás el último):
+
+\[C(R_i) + C(R_{i+1}) > 1\]
+
+Tomando pares alternados (al menos $\frac{k-1}{2}$ pares disjuntos), al sumar todos los contenidos:
+
+\[S(L) = \sum_{j=1}^k C(R_j) > \frac{k-1}{2}\]
+
+Como cada recipiente en cualquier solución óptima tiene a lo sumo capacidad 1, se cumple:
+
+\[OPT(L) \ge S(L) > \frac{k-1}{2} \;\;\Longrightarrow\;\; k < 2\cdot OPT(L) + 1\]
+
+Por integralidad:
+
+\[k \le 2 \cdot OPT(L)\]
+
+Se concluye que *Next Fit* es un algoritmo 2-aproximado.
+
+<!-- La lógica del algoritmo dicta que un nuevo recipiente $R_{i+1}$ solo se abre si el item actual no cabe en el recipiente $R_i$. Esto implica que la suma del contenido de los recipientes adyacentes cualesquiera debe ser extrictamente mayor a la capacidad unitaria del recipiente (que es 1). Si fuera menor o igual a 1, el algoritmo habría colocado primer item del recipiente $i+1$ en el recipiente $i$.
+
+$C(R_i) + C(R_{i+1}) > 1 \text{, para } 1 \leq i \leq k$
 
 Si se suma el contenido de todos los recipientes, se tiene la suma total de los tamaños de los items, denotada como $S(L)$. Dado que al menos la mitad de los pares de recipientes suman más de 1, se puede acotar el tamaño total: $S(L) > \frac{k-1}{2}$.
 
@@ -71,16 +91,16 @@ Se sabe que el número óptimo de recipientes $OPT(L)$ debe ser al menos igual a
 
 Combinando ambas desigualdades: $OPT(L) > \frac{k-1}{2} \Longrightarrow 2 \cdot OPT(L) > k-1$
 
-Dado que $k$ y $OPT(L)$ son enteros, esto implica que $k \leq 2 \cdot OPT(L)$ (Kleinberg & Tardos, 2006).
+Dado que $k$ y $OPT(L)$ son enteros, esto implica que $k \leq 2 \cdot OPT(L)$ (Kleinberg & Tardos, 2006). -->
 
 ### 3.3.4 Estructuras de Datos Utilizadas
 
-Para la iplementación del algoritmo _Next Fit_, se han seleccionado estrucuturas de datos lineales simples.
+Para la implementación del algoritmo _Next Fit_, se han seleccionado estructuras de datos lineales simples.
 Dado que la lógica del algoritmo es estrictamente secuencial y _online_ (no revisa decisiones pasadas ni mira hacia el futuro), no se requieren estructuras de acceso aleatorio complejo ni de ordenamiento.
 
 1. **Arreglo Dinámico / Lista (para la entrada)**
 - **Descripción:** Se utiliza una lista (implementada como list en Python) para almacenar la secuencia de objetos de entrada $S$.
-- **Justificación:** El algoritmo requiere recorrer los aelementos una única vez en el orden dado. La lista permite iteración secuencial en tiempo $O(N)$. Al no requerir reordenamiento (como en _Decreasing First Fit_), no se incurre en costos adicionales de procesamiento previo.
+- **Justificación:** El algoritmo requiere recorrer los elementos una única vez en el orden dado. La lista permite iteración secuencial en tiempo $O(N)$. Al no requerir reordenamiento (como en _Decreasing First Fit_), no se incurre en costos adicionales de procesamiento previo.
 
 2. **Lista de listas (para la salida)**
 - **Descripción:** La estrucutra pricipal de retorno es una lista donde cada elemento es, a su vez, una lista que representa un recipiente conteniendo los tamaños de los objetos asignados.
@@ -93,7 +113,7 @@ A diferencia de algoritmos como _First Fit_ o _Best Fit_, que deben buscar entre
 
 ## 3.4 Seguimiento
 
-Para demostrar el funcionamiento del algoritmo, se hara un ejemplo de seguimiento usando el siguiente set de datos reducido: $S = [0.6, 0.3, 0.7, 0.2, 0.1]$, y $C = 1.0$ una capacidad de recipiente.
+Para demostrar el funcionamiento del algoritmo, se hará un ejemplo de seguimiento usando el siguiente set de datos reducido: $S = [0.6, 0.3, 0.7, 0.2, 0.1]$, y $C = 1.0$ una capacidad de recipiente.
 
 ##### Tabla de seguimiento:
 
@@ -158,7 +178,7 @@ Para validar el comportamiento del algoritmo *Next Fit* se diseñaron 6 conjunto
 
 3. **Items Pequeños**
 - **Datos:** [0.1, 0.2, 0.15, 0.05, 0.3]
-- **Características:** Todos los items son son $leq$ 30% de la capacidad.
+- **Características:** Todos los items son $leq$ 30% de la capacidad.
 - **Propósito:** Verificar la eficiencia cuando múltiples items pueden compartir recipiente.
 
 4. **Peor Caso Teórico**
@@ -169,11 +189,11 @@ Para validar el comportamiento del algoritmo *Next Fit* se diseñaron 6 conjunto
 5. **Caso Mixto**
 - **Datos:** [0.4, 0.6, 0.2, 0.8, 0.1, 0.9, 0.3, 0.7]
 - **Características:** Alternancia entre items grandes y pequeños.
-- **Propósito:** Evaluar la robuztez del algoritmo con patrones variados.
+- **Propósito:** Evaluar la robustez del algoritmo con patrones variados.
 
 6. **Caso Aleatorio**
 - **Datos:** 20 valores generados aleatoriamente entre 0.01 y 0.99.
-- **Caracterísiticas:** Distribución uniforme, tamaño representativo.
+- **Características:** Distribución uniforme, tamaño representativo.
 - **Propósito:** Simular condiciones reales de entrada de datos.
 
 ### 3.6.2 Análasis de Resultados por Conjunto
@@ -182,7 +202,7 @@ Para validar el comportamiento del algoritmo *Next Fit* se diseñaron 6 conjunto
 
 Para cada conjunto se midieron las siguientes métricas:
 
-- **Recipientes utilizados:** Cnatidad total de recipientes requeridos.
+- **Recipientes utilizados:** Cantidad total de recipientes requeridos.
 - **Cota inferior teórica:** Número mínimo de recipientes según la suma total de items.
 - **Factor de aproximación:** Ratio entre recipientes utilizados y la cota inferior.
 - **Eficiencia:** Porcentaje de utlización promedio de los recipientes.
@@ -190,14 +210,14 @@ Para cada conjunto se midieron las siguientes métricas:
 
 #### 3.6.2.2 Resultados Obtenidos
 
-|Conjunto|Items|Recipentes|Factor Aprox.|Eficiencia|Tiempo (ms)|
+|Conjunto|Items|Recipientes|Factor Aprox.|Eficiencia|Tiempo (ms)|
 |:------:|:--:|:--------:|:-----------:|:--------:|:---------:|
 |Básico|5|2|1.00|95.00%|0.0048|
 |Items Grandes|5|5|1.00|84.00%|0.0024|
 |Items Pequeños|5|1|1.00|80.00%|0.0017|
 |Peor Caso|5|5|1.67|51.00%|0.0060|
 |Mixto|8|4|1.00|100.00%|0.0045|
-|Aleatorio|20|10|1.11|82.00%|0.0076|
+|Aleatorio|20|13|1.11|82.00%|0.0076|
 
 ### 3.6.3 Validación de la Garantía Teórica
 
@@ -208,14 +228,106 @@ Los resultados confirman que en todos los casos el factor de aproximación se ma
 
 El caso "Peor Caso" con items de tamaño 0.51 demuestra empíricamente el comportamiento límite del algoritmo, donde cada item requiere su propio recipiente debido a que ningún par puede compartir espacio.
 
-### 3.6.4 Generación Automática de Datasets
+### 3.6.4 Generación y Reproducibilidad de Datasets
 
-Para facilitar la experimentación, se implementó la función `generar_casos_prueba()` que permite:
-1. **Reproducibilidad:** Los casos deterministas garantizan resultados consistentes.
-2. **Varaiblidad:** El caso aleatorio utiliza `random.uniform()` con redondeo a 2 decimales.
-3. **Escalabilidad:** La estructura permite agregar nuevos casos fácilmente.
+Para garantizar la reproducibilidad experimental y facilitar la validación de resultados:
+1. **Casos deterministas:** Los datasets básicos, items grandes/pequeños, peor caso y mixto están predefinidos para asegurar resultados consistentes entre ejecuciones.
+2. **Caso aleatorio:** Se genera dinámicamente con distribución uniforme en el rango [0.01, 0.99] con precisión de 2 decimales para simular datos del mundo real.
+3. **Escalabilidad:** La estructura modular permite agregar nuevos casos de prueba sin modificar la lógica del algoritmo.
 
-Los datasetes están diseñados para cubrir el espectro completo de comportamientos del algoritmo, desde el caso óptimo hasta el peor caso teórico, proporcionando una validaciónn integral del rendimiento.
+Los datasetes están diseñados para cubrir el espectro completo de comportamientos del algoritmo, desde el caso óptimo hasta el peor caso teórico, proporcionando una validación integral del rendimiento.
+
+## 3.7 Tiempos de Ejecución
+
+### 3.7.1 Metodología de Medición
+
+Para validar empíricamente la complejidad temporal teórica $O(n)$, se realizaron experimentos sistemáticos con datasets de diferentes tamaños:
+- **Tamaños evaaluados:** 50, 100, 200, 500, 1000, 2000, 5000 objetos.
+- **Repeticiones:** 10 corridas por tamaño para obtener promedios confiables.
+- **Geneeración de datos:** Objetos aleatorios con distribución uniforme [0.1, 0.9].
+- **Medición:** `time.perf_counter()` para máxima precisión.
+
+### 3.7.2 Resultados Experimentales
+
+Los experimentos confirman el comportamiento lineal esperado:
+
+|Tamaño (n)|Tiempo Promedio (ms)|Factor de Aproximación|
+|:--------:|:------------------:|:--------------------:|
+|50|0.022|1.34|
+|100|0.033|1.35|
+|200|0.205|1.35|
+|500|0.197|1.36|
+|1000|0.282|1.36|
+|2000|0.741|1.36|
+|5000|1.600|1.36|
+
+### 3.7.3 Análisis Gráfico
+
+![Tiempos de Ejecución](tiempos_ejecucion_next_fit.png)
+
+*Figura 1: Análisis experimental de tiempos de ejecución del algoritmo Next Fit*
+
+**Observaciones clave:**
+
+1. **Linealidad confirmada:** El coeficiente de linealidad promedio es 1.07, muy cercano al ideal 1.0.
+2. **Escalabilidad:** El algoritmo mantiene eficiencia constante hasta datasets de 5000 objetos.
+3. **Factor de aproximación estable:** Se mantiene consistentemente alrededor de 1.36, muy por debajo del límite teórico de 2.0.
+
+### 3.7.4 Validación de Complejidad
+
+**Complejidad teórica:** $O(n)$
+**Complejidad empírica:** Confirmada como lineal.
+**Eficiencia relativa:** Coeficiente 1.07
+**Factor de aproximación promedio:** 1.36 (muy inferior a la cota 2.0).
+
+La pendiente constante en el gráfico tiempo vs tamaño confirma que el algoritmo *Next Fit* efectivamente opera en tiempo lineal, cumpliendo con las expectativas teóricas y siendo adecuado para aplicaciones en tiempo real con datasets.
+
+## 3.8 Informe de Resultados
+
+Se evaluó *Next Fit* sobre 6 conjuntos (básico, items grandes, items pequeños, peor caso, mixto, aleatorio) y pruebas de escalabilidad (50-5000 ítems).
+Se medió: 
+- recipientes usados
+- cota inferior $\lceil \sum s_i \rceil$
+- factor = usados / cota
+- eficiencia = ($\frac{\sum S_i}{(\text{usados})}$)
+- desperdicio = usados - $\sum S_i$
+- tiempo (ms)
+
+### 3.8.1 Resultados resumidos
+
+|Caso|Ítems|Usados|Cota|Factor|Eficiencia|Desperdicio|
+|:--:|:---:|:----:|:--:|:----:|:--------:|:---------:|
+| Básico       | 5     | 2      | 2    | 1.00   | 95.00%     | 0.10        |
+| Items grandes| 5     | 5      | 5    | 1.00   | 84.00%     | 0.80        |
+| Items pequeños| 5    | 1      | 1    | 1.00   | 80.00%     | 0.20        |
+| Peor caso    | 5     | 5      | 3    | 1.67   | 51.00%     | 2.45        |
+| Mixto        | 8     | 4      | 4    | 1.00   | 100.00%    | 0.00        |
+| Aleatorio (20)| 20   | 13     | 10   | 1.30   | 72.62%     | 3.56        |
+
+Factor observado: entre 1.00 y 1.67 ($\leq 2.00$). El peor caso valida la cota teórica; los demás muestran alto aprovechamiento. El caso aleatorio mantiene buen rendimiento (1.30).
+
+### 3.8.2 Escalabilidad
+
+- Promedios ($50 \arrow 5000$ ítems) confirman tiempo lineal $O(n)$.
+- Factor estable $\approx 1.34-1.37$.
+- Coeficiente de linealidad cercano a 1.07.
+- Tiempo para $n = 5000 < 2$ ms.
+
+### 3.8.3 Interpretación
+
+- Alta eficiencia cuando hay complementariedad (básico, mixto).
+- Degradación esperable cuando todos los ítems > 0.5.
+- El factor práctico ($\approx 1.35$) está muy por debajo del límite 2-OPT.
+- Variación del factor mínima al crecer n -> robustez.
+
+### 3.8.4 Limitaciones y mejoras
+
+Limitaciones: orden de llegada fijo, sin reordenamiento, sensible a secuencias adversariales (> 0.5).
+Posibles mejoras: comparar con *First Fit / FFD*, fijar semilla aleatoria, registrar desviación estándar de tiempos y factores, experimentar con otras distribuciones.
+
+### 3.8.5 Conclusión
+
+*Next Fit* cumple: simplicidad, tiempo $O(n)$ confirmado, garantía $\leq 2 \cdot OPT$ y buen desempeño empírico (factor $\leq 1.67$, típico $\approx 1.35$). Adecuado como solución rápida online; puede reemplazarse por heurísticas con ordenamiento para mayor eficiencia absoluta.
 
 # 5 Anexo
 
