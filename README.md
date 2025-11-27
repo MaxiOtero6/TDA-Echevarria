@@ -38,9 +38,11 @@
 
 #### AA
 
--   `python -m TP2.AA.algo`: Run algorithm with predefined test cases and generate results
-- The `generar_casos_prueba()` function defiens 6 test cases: basic, large items, small items, worst case, mixed and random
-- Results are automatically exported to `resultados.txt`
+-    `python -m TP2.AA.algo`: Quick start (menu)
+-    `python -m TP2.AA.algo --mode graficos --reps 0 --warmups 10 --minsec 1.0 --trim 0.20 --suffix _1s`: Canonical run (figure/CSV used in the report)
+-    Outputs: `resultados.txt`, `escalabilidad_1s.csv`, `residuos_1s.csv`, `tiempos_ejecucion_next_fit_1s.png`
+
+> See headers in `TP2/AA/algo.py` and `TP2/AA/benchmark_plot.py` for advanced usage.
 
 #### AR
 
