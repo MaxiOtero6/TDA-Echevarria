@@ -1,0 +1,23 @@
+RESULTADOS DEL PROTOCOLO ZKP
+=========================================
+
+Rondas: 1 | Certeza: 50.00000% | P(Error): 0.5000000000
+Rondas: 2 | Certeza: 75.00000% | P(Error): 0.2500000000
+Rondas: 3 | Certeza: 87.50000% | P(Error): 0.1250000000
+Rondas: 4 | Certeza: 93.75000% | P(Error): 0.0625000000
+Rondas: 5 | Certeza: 96.87500% | P(Error): 0.0312500000
+Rondas: 6 | Certeza: 98.43750% | P(Error): 0.0156250000
+Rondas: 7 | Certeza: 99.21875% | P(Error): 0.0078125000
+Rondas: 8 | Certeza: 99.60938% | P(Error): 0.0039062500
+Rondas: 9 | Certeza: 99.80469% | P(Error): 0.0019531250
+Rondas: 10 | Certeza: 99.90234% | P(Error): 0.0009765625
+Rondas: 11 | Certeza: 99.95117% | P(Error): 0.0004882812
+Rondas: 12 | Certeza: 99.97559% | P(Error): 0.0002441406
+Rondas: 13 | Certeza: 99.98779% | P(Error): 0.0001220703
+Rondas: 14 | Certeza: 99.99390% | P(Error): 0.0000610352
+Rondas: 15 | Certeza: 99.99695% | P(Error): 0.0000305176
+Rondas: 16 | Certeza: 99.99847% | P(Error): 0.0000152588
+Rondas: 17 | Certeza: 99.99924% | P(Error): 0.0000076294
+Rondas: 18 | Certeza: 99.99962% | P(Error): 0.0000038147
+Rondas: 19 | Certeza: 99.99981% | P(Error): 0.0000019073
+Rondas: 20 | Certeza: 99.99990% | P(Error): 0.0000009537
