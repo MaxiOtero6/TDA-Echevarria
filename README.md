@@ -30,7 +30,7 @@
 
 #### PL
 
--   `python3 -m TP2.`:
+-   `python3 -m TP2.PL.algo`: Run algorithm with base case
 
 #### RF
 
