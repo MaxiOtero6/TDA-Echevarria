@@ -14,23 +14,27 @@ Outputs (in TP2/AA):
 """
 import argparse
 import statistics
-from algoritmo import generar_casos_prueba, next_fit, calcular_metricas, cota_inferior_teorica
-from benchmark_plot import medir_corrida, generar_grafico_tiempos
+from .algoritmo import generar_casos_prueba, next_fit, calcular_metricas, cota_inferior_teorica
+from .benchmark_plot import medir_corrida, generar_grafico_tiempos
 
 """Ejecuta las pruebas y muestra los resultados"""
+
+
 def ejecutar_pruebas(nombre_caso, objetos, repeticiones=30, warmups=3):
     for _ in range(warmups):
         next_fit(objetos)
-    muestras = [medir_corrida(lambda: next_fit(objetos)) for _ in range(repeticiones)]
+    muestras = [medir_corrida(lambda: next_fit(objetos))
+                for _ in range(repeticiones)]
     muestras.sort()
     k = max(1, repeticiones // 10)
     trimmed = muestras[k:-k] if len(muestras) > 2 * k else muestras
     tiempo_ms = statistics.mean(trimmed)
-    
+
     recipientes = next_fit(objetos)
     metricas = calcular_metricas(recipientes)
     cota_inferior = cota_inferior_teorica(objetos)
-    factor_aproximacion = metricas["num_recipientes"] / cota_inferior if cota_inferior > 0 else 0
+    factor_aproximacion = metricas["num_recipientes"] / \
+        cota_inferior if cota_inferior > 0 else 0
 
     return {
         "caso": nombre_caso,
@@ -42,19 +46,26 @@ def ejecutar_pruebas(nombre_caso, objetos, repeticiones=30, warmups=3):
         "factor_aproximacion": factor_aproximacion
     }
 
+
 """Guarda métricas de los casos"""
+
+
 def guardar_resultados_casos(seed=42, nombre="casos.csv", repeticiones=30, warmups=3):
     casos = generar_casos_prueba(seed=seed)
     with open(nombre, "w") as f:
         f.write("caso,n,usados,lb,factor,eficiencia,desperdicio,tiempo_ms\n")
         for nombre_caso, objetos in casos.items():
-            res = ejecutar_pruebas(nombre_caso, objetos, repeticiones=repeticiones, warmups=warmups)
+            res = ejecutar_pruebas(nombre_caso, objetos,
+                                   repeticiones=repeticiones, warmups=warmups)
             met = res["metricas"]
             f.write(f"{nombre_caso},{len(objetos)},{met['num_recipientes']},{res['cota_inferior']},"
                     f"{res['factor_aproximacion']:.6f},{met['eficiencia']:.6f},{met['desperdicio_total']:.6f},"
                     f"{res['tiempo_ms']:.6f}\n")
 
+
 """Genera el archivo de resultados"""
+
+
 def generar_archivo_resultados(nombre_archivo="resultados.txt", seed=42):
     casos = generar_casos_prueba(seed=seed)
 
@@ -67,13 +78,16 @@ def generar_archivo_resultados(nombre_archivo="resultados.txt", seed=42):
             f.write(f"--- {nombre.upper()} ---\n")
             objs = "[" + ", ".join(f"{o:.2f}" for o in r['objetos']) + "]"
             f.write(f"Items: {objs}\n")
-            f.write(f"Recipientes utilizados: {r['metricas']['num_recipientes']}\n")
+            f.write(
+                f"Recipientes utilizados: {r['metricas']['num_recipientes']}\n")
             f.write(f"Cota inferior teórica: {r['cota_inferior']}\n")
-            f.write(f"Factor de aproximación: {r['factor_aproximacion']:.2f}\n")
+            f.write(
+                f"Factor de aproximación: {r['factor_aproximacion']:.2f}\n")
             f.write(f"Eficiencia: {r['metricas']['eficiencia']:.2%}\n")
-            f.write(f"Desperdicio total: {r['metricas']['desperdicio_total']:.2f}\n")
+            f.write(
+                f"Desperdicio total: {r['metricas']['desperdicio_total']:.2f}\n")
             f.write(f"Tiempo de ejecución: {r['tiempo_ms']:.4f}ms\n\n")
-            
+
             if len(r['recipientes']) <= 10:
                 f.write("Asignación por recipiente:\n")
                 for i, rec in enumerate(r['recipientes']):
@@ -82,13 +96,18 @@ def generar_archivo_resultados(nombre_archivo="resultados.txt", seed=42):
 
         f.write("=== ANÁLISIS DE COMPLEJIDAD ===\n")
         f.write("Temporal: O(n) - Procesa cada item exactamente una vez\n")
-        f.write("Espacial: O(n) - En el peor caso, cada item necesita su propio recipiente\n\n")
-        
+        f.write(
+            "Espacial: O(n) - En el peor caso, cada item necesita su propio recipiente\n\n")
+
         f.write("=== GARANTÍA TEÓRICA ===\n")
         f.write("Para cualquier instancia I: NextFit(I) ≤ 2 * OPT(I)\n")
-        f.write("El algoritmo nunca utiliza más del doble de recipientes que la solución óptima.\n")
+        f.write(
+            "El algoritmo nunca utiliza más del doble de recipientes que la solución óptima.\n")
+
 
 """Genera reporte detallado de tiempos para el informe"""
+
+
 def generar_reporte_tiempos():
     generar_grafico_tiempos()
 
@@ -98,7 +117,10 @@ def generar_reporte_tiempos():
     print("Los datos detallados se encuentran en la tabla anterior.")
     print("Gráfico generado y guardado como 'tiempos_ejecucion_next_fit.png'")
 
+
 """Parsea argumentos de línea de comandos"""
+
+
 def parse_args():
     p = argparse.ArgumentParser(description="Next Fit - CLI")
     p.add_argument("--mode", choices=["1", "2", "3", "casos", "graficos", "ambos"],
@@ -106,12 +128,16 @@ def parse_args():
     p.add_argument("--reps", type=int, default=40)
     p.add_argument("--warmups", type=int, default=3)
     p.add_argument("--trim", type=float, default=0.10)
-    p.add_argument("--minsec", type=float, default=0.0, help="tiempo mínimo por n (segundos)")
+    p.add_argument("--minsec", type=float, default=0.0,
+                   help="tiempo mínimo por n (segundos)")
     p.add_argument("--suffix", default="")
     p.add_argument("--seed", type=int, default=42)
     return p.parse_args()
 
+
 """Punto de entrada de la CLI"""
+
+
 def main():
     args = parse_args()
     seed = args.seed
@@ -125,9 +151,12 @@ def main():
         print("3. Ambos")
         opcion = input("Seleccione una opción (1-3): ")
 
-    if opcion in ["casos"]: opcion = '1'
-    if opcion in ["graficos"]: opcion = '2'
-    if opcion in ["ambos"]: opcion = '3'
+    if opcion in ["casos"]:
+        opcion = '1'
+    if opcion in ["graficos"]:
+        opcion = '2'
+    if opcion in ["ambos"]:
+        opcion = '3'
 
     if opcion in ['1', '3']:
         print("\n=== RESULTADOS DE CASOS DE PRUEBA ===\n")
@@ -137,7 +166,8 @@ def main():
             print(f"--- {nombre.upper()} ---")
             objs = "[" + ", ".join(f"{o:.2f}" for o in r['objetos']) + "]"
             print(f"Objetos: {objs}")
-            print(f"Recipientes utilizados: {r['metricas']['num_recipientes']}")
+            print(
+                f"Recipientes utilizados: {r['metricas']['num_recipientes']}")
             print(f"Factor de aproximación: {r['factor_aproximacion']:.2f}")
             print(f"Eficiencia: {r['metricas']['eficiencia']:.2%}")
             print(f"Tiempo: {r['tiempo_ms']:.4f}ms")
@@ -169,6 +199,7 @@ def main():
         generar_archivo_resultados(seed=42)
         guardar_resultados_casos(seed=42, nombre=f"casos{args.suffix}.csv")
         print("Archivo de resultados generado.")
+
 
 if __name__ == "__main__":
     main()

@@ -30,7 +30,7 @@
 
 #### PL
 
--   `python3 -m TP2.PL.algo`: Run algorithm with base case
+-   `python -m TP2.PL.algo`: Run algorithm with base case
 
 #### RF
 
@@ -46,7 +46,7 @@
 
 #### AR
 
--   `python -m TP2.`:
+-   `python -m TP2.AR.tests`: Run tests
 
 ## Makefile Commands
 
